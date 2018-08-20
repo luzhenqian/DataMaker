@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="js/element-ui.css">
+    <!-- import Vue before Element -->
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+    <!-- import JavaScript -->
+    <script src="js/element-ui.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>汪汪！</title>
+    <link id="dog" rel="shortcut icon" href="icon/dog.png">
+</head>
+
+<body>
+    <div id="app">
+        <div></div>
+        <el-tabs>
+            <!-- <el-tab-pane label="烧结工序">
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>烧结工序总览</span>
+                    </div>
+                    <el-input-number v-model="num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-input-number v-model="num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-button>开始模拟</el-button>
+                </el-card>
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>配料参数曲线</span>
+                    </div>
+                    <el-input-number v-model="num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-input-number v-model="num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-button>开始模拟</el-button>
+                </el-card>
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>混料参数曲线</span>
+                    </div>
+                    <el-input-number v-model="num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-input-number v-model="num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-button>开始模拟</el-button>
+                </el-card>
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>烧结机参数曲线</span>
+                    </div>
+                    <el-input-number v-model="num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-input-number v-model="num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-button>开始模拟</el-button>
+                </el-card>
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>点火参数曲线</span>
+                    </div>
+                    <el-input-number v-model="num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-input-number v-model="num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-button>开始模拟</el-button>
+                </el-card>
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>主抽风机参数曲线</span>
+                    </div>
+                    <el-input-number v-model="num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-input-number v-model="num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-button>开始模拟</el-button>
+                </el-card>
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>冷却整粒参数曲线</span>
+                    </div>
+                    <el-input-number v-model="num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-input-number v-model="num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-button>开始模拟</el-button>
+                </el-card>
+            </el-tab-pane> -->
+            <el-tab-pane label="辅助工序">
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>脱硫系统参数</span>
+                    </div>
+                    <div class="d-interval">
+                        <p>入口烟气参数模拟</p>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>SO2浓度</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>SO2含量</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num1_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num1_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>NOx浓度</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num2_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num2_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>粉尘含量</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num3_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num3_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>烟气流量</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num4_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num4_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>烟气温度</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num5_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num5_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>烟气压力</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num6_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num6_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div class="d-interval">
+                        <p>出口烟气参数模拟</p>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>SO2浓度</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num7_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num7_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>SO2含量</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num8_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num8_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>NOx浓度</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num9_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num9_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>粉尘含量</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num10_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num10_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>烟气流量</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num11_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num11_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>烟气温度</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num12_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num12_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>烟气压力</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num13_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num13_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div class="d-interval">
+                        <p>5#增压风机</p>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>频率设定值</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num14_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num14_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>频率反馈值</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num15_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num15_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>风门设定值</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num16_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num16_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>风门反馈值</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num17_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num17_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>电流</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num18_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num18_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div class="d-interval">
+                        <p>6#增压风机</p>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>频率设定值</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num19_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num19_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>频率反馈值</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num20_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num20_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>风门设定值</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num21_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num21_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>风门反馈值</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num22_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num22_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4">
+                                <span>电流</span>
+                            </el-col>
+                            <el-col :span="20">
+                                <el-input-number v-model="desulphurization.num23_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                                <el-input-number v-model="desulphurization.num23_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <el-button v-if="desulphurization_button_state" @click="desulphurizationRandGo">开始模拟</el-button>
+                    <el-button v-else @click="desulphurizationRandGo">停止模拟</el-button>
+                </el-card>
+                <!-- <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>余热发电系统参数</span>
+                    </div>
+                    <el-input-number v-model="num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-input-number v-model="num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-button>开始模拟</el-button>
+                </el-card>
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>环保除尘系统参数</span>
+                    </div>
+                    <el-input-number v-model="num0_0" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-input-number v-model="num0_1" :precision="0" :step="100" :max="1000000"></el-input-number>
+                    <el-button>开始模拟</el-button>
+                </el-card> -->
+            </el-tab-pane>
+        </el-tabs>
+        <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
+    <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
+    <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+    <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+  </el-tabs> -->
+    </div>
+    <script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                isCollapse: true,
+                desulphurization: {
+                    // 入口烟气参数模拟
+                    num0_0: 400,
+                    num0_1: 600,
+                    num1_0: 10,
+                    num1_1: 20,
+                    num2_0: 200,
+                    num2_1: 300,
+                    num3_0: 20,
+                    num3_1: 40,
+                    num4_0: 900000,
+                    num4_1: 1000000,
+                    num5_0: 110,
+                    num5_1: 130,
+                    num6_0: 1400,
+                    num6_1: 1600,
+                    // 出口烟气参数模拟
+                    num7_0: 400,
+                    num7_1: 600,
+                    num8_0: 10,
+                    num8_1: 20,
+                    num9_0: 200,
+                    num9_1: 300,
+                    num10_0: 20,
+                    num10_1: 40,
+                    num11_0: 900000,
+                    num11_1: 1000000,
+                    num12_0: 110,
+                    num12_1: 130,
+                    num13_0: 1400,
+                    num13_1: 1600,
+                    // 5#增压风机
+                    num14_0: 40,
+                    num14_1: 60,
+                    num15_0: 80,
+                    num15_1: 100,
+                    num16_0: 40,
+                    num16_1: 60,
+                    num17_0: 80,
+                    num17_1: 120,
+                    num18_0: 140,
+                    num18_1: 160,
+                    // 6#增压风机
+                    num19_0: 40,
+                    num19_1: 60,
+                    num20_0: 80,
+                    num20_1: 100,
+                    num21_0: 40,
+                    num21_1: 60,
+                    num22_0: 80,
+                    num22_1: 120,
+                    num23_0: 140,
+                    num23_1: 160,
+                },
+                desulphurization_button_state: true, //脱硫按钮状态
+                desulphurization_timer: null, //脱硫定时器
+            };
+        },
+        methods: {
+            /*handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },*/
+            randomNum(minNum, maxNum) {
+                switch (arguments.length) {
+                    case 1:
+                        return parseInt(Math.random() * minNum + 1, 10);
+                        break;
+                    case 2:
+                        return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+                        break;
+                    default:
+                        return 0;
+                        break;
+                }
+            },
+            desulphurizationRandGo() {
+                if (this.desulphurization_button_state) {
+                    this.desulphurization_button_state = false
+                    this.desulphurization_timer = setInterval(
+                        () => {
+                            var myDate = new Date();
+                            myDate.getYear(); //获取当前年份(2位)
+                            var year = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
+                            myDate.getMonth(); //获取当前月份(0-11,0代表1月)
+                            var month = myDate.getMonth() + 1 > 10 ? myDate.getMonth() + 1 : 0 + "" + (myDate.getMonth() + 1)
+                            myDate.getDate(); //获取当前日(1-31)
+                            var date = myDate.getDate() > 10 ? myDate.getDate() : 0 + "" + myDate.getDate()
+                            myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+                            myDate.getTime(); //获取当前时间(从1970.1.1开始的毫秒数)
+                            myDate.getHours(); //获取当前小时数(0-23)
+                            var hours = myDate.getHours()
+                            myDate.getMinutes(); //获取当前分钟数(0-59)
+                            var minutes = myDate.getMinutes()
+                            myDate.getSeconds(); //获取当前秒数(0-59)
+                            var seconds = myDate.getSeconds() > 10 ? myDate.getSeconds() : "0" + myDate.getSeconds()
+                            myDate.getMilliseconds(); //获取当前毫秒数(0-999)
+                            myDate.toLocaleDateString(); //获取当前日期
+                            var mytime = myDate.toLocaleTimeString(); //获取当前时间
+                            myDate.toLocaleString(); //获取日期与时间
+                            // let DateTime = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+                            let DateTime = year + "" + month + "" + date + "" + hours + "" + minutes + "" + seconds + "" + "00"
+                            let params0 = {
+                                NOx含量: this.randomNum(this.desulphurization.num2_0, this.desulphurization.num2_1),
+                                SO2含量: this.randomNum(this.desulphurization.num1_0, this.desulphurization.num1_1),
+                                发生时刻: DateTime,
+                                粉尘含量: this.randomNum(this.desulphurization.num3_0, this.desulphurization.num3_1),
+                                entrance_or_exit: 0,
+                                烟气流量: this.randomNum(this.desulphurization.num4_0, this.desulphurization.num4_1),
+                                烟气压力: this.randomNum(this.desulphurization.num6_0, this.desulphurization.num6_1),
+                                烟气温度: this.randomNum(this.desulphurization.num5_0, this.desulphurization.num5_1),
+                                SO2浓度: this.randomNum(this.desulphurization.num0_0, this.desulphurization.num0_1),
+                            }
+                            axios({
+                                    method: "post",
+                                    url: "http://127.0.0.1:8080/desulphurization0",
+                                    data: params0,
+                                    responseType: 'json'
+                                })
+                                .then(function(res) { console.log(res) })
+
+                            let params1 = {
+                                NOx含量: this.randomNum(this.desulphurization.num2_0, this.desulphurization.num2_1),
+                                SO2含量: this.randomNum(this.desulphurization.num1_0, this.desulphurization.num1_1),
+                                发生时刻: DateTime,
+                                粉尘含量: this.randomNum(this.desulphurization.num3_0, this.desulphurization.num3_1),
+                                entrance_or_exit: 1,
+                                烟气流量: this.randomNum(this.desulphurization.num4_0, this.desulphurization.num4_1),
+                                烟气压力: this.randomNum(this.desulphurization.num6_0, this.desulphurization.num6_1),
+                                烟气温度: this.randomNum(this.desulphurization.num5_0, this.desulphurization.num5_1),
+                                SO2浓度: this.randomNum(this.desulphurization.num0_0, this.desulphurization.num0_1),
+                            }
+                            axios({
+                                    method: "post",
+                                    url: "http://127.0.0.1:8080/desulphurization1",
+                                    data: params1,
+                                    responseType: 'json'
+                                })
+                                .then(function(res) { console.log(res) })
+
+                            let params2 = {
+                                发生时刻: DateTime,
+                                电流: this.randomNum(this.desulphurization.num18_0, this.desulphurization.num18_1),
+                                风机id:5,
+                                频率反馈值: this.randomNum(this.desulphurization.num15_0, this.desulphurization.num15_1),
+                                频率设定值: this.randomNum(this.desulphurization.num14_0, this.desulphurization.num14_1),
+                                风门反馈值: this.randomNum(this.desulphurization.num17_0, this.desulphurization.num17_1),
+                                风门设定值: this.randomNum(this.desulphurization.num16_0, this.desulphurization.num16_1),
+                            }
+                            axios({
+                                    method: "post",
+                                    url: "http://127.0.0.1:8080/desulphurization2",
+                                    data: params2,
+                                    responseType: 'json'
+                                })
+                                .then(function(res) { console.log(res) })
+
+                            let params3 = {
+                                发生时刻: DateTime,
+                                电流: this.randomNum(this.desulphurization.num18_0, this.desulphurization.num18_1),
+                                风机id:6,
+                                频率反馈值: this.randomNum(this.desulphurization.num15_0, this.desulphurization.num15_1),
+                                频率设定值: this.randomNum(this.desulphurization.num14_0, this.desulphurization.num14_1),
+                                风门反馈值: this.randomNum(this.desulphurization.num17_0, this.desulphurization.num17_1),
+                                风门设定值: this.randomNum(this.desulphurization.num16_0, this.desulphurization.num16_1),
+                            }
+                            axios({
+                                    method: "post",
+                                    url: "http://127.0.0.1:8080/desulphurization3",
+                                    data: params3,
+                                    responseType: 'json'
+                                })
+                                .then(function(res) { console.log(res) })
+                        }, 1000
+                    )
+                } else {
+                    this.desulphurization_button_state = true
+                    clearInterval(this.desulphurization_timer)
+                }
+            }
+        }
+    })
+    </script>
+    <style>
+    .d-interval {
+        padding-bottom: 10px;
+        border-bottom: .5px #ebeef5 solid;
+    }
+    </style>
+    <script>
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState == 'hidden') {
+            normal_title = document.title
+            normal_icon = document.getElementById("dog").href
+            document.title = "我要骨头！"
+            document.getElementById("dog").href = "icon/dog-food.png"
+        } else {
+            document.title = normal_title
+            document.getElementById("dog").href = normal_icon
+        }
+
+    });
+    </script>
+</body>
+
+</html>
