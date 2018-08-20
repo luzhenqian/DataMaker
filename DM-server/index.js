@@ -22,14 +22,14 @@ app.all('*', function(req, res, next) {
 
 //數據庫配置
 var connection = mysql.createConnection({
-    host: "192.168.9.201", //默認地址
+    /*host: "192.168.9.201", //默認地址
     user: "nuosinter", //用戶名
     password: "nuotec123456@", //密碼
-    database: "nuosinter", //數據庫名
-    /*host: "127.0.0.1", //默認地址
-    user: "root", //用戶名
-    password: "root", //密碼
     database: "nuosinter", //數據庫名*/
+    host: "127.0.0.1", //默認地址
+    user: "root", //用戶名
+    password: "123456", //密碼
+    database: "nuosinter", //數據庫名
 })
 
 // get请求
@@ -95,6 +95,37 @@ app.post("/desulphurization3", urlencodedParser, function(req, res) {
     // res.send(JSON.stringify(insertId))
     res.send(null)
 })
+
+app.post("/generation", urlencodedParser, function(req, res) {
+    var addSql = "insert into generation" + 
+    "(id,time,low_temperature,low_pressure,low_flow,high_temperature,high_pressure,high_flow,steamup_temperature,steamup_pressure,steamup_flow,steamdown_temperature,steamdown_pressure,steamdown_flow,high_parameter_drum,low_parameter_drum,high_adjustment_parameters,instantaneous_power)" +
+    "values(0,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+    var addSqlParams = []
+    for(var key in req.body){
+        var value = req.body[key]
+        addSqlParams.push(value)
+    }
+    console.log(addSqlParams)
+    insert(addSql,addSqlParams)
+    // res.send(JSON.stringify(insertId))
+    res.send(null)
+})
+
+app.post("/cogeneration", urlencodedParser, function(req, res) {
+    var addSql = "insert into cogeneration" + 
+    "(id,entrance_or_exit,create_time,temperature1,temperature2,temperature3,temperature4,temperature5,temperature6,temperature)" +
+    "values(0,?,?,?,?,?,?,?,?,?)"
+    var addSqlParams = []
+    for(var key in req.body){
+        var value = req.body[key]
+        addSqlParams.push(value)
+    }
+    //console.log(addSqlParams)
+    insert(addSql,addSqlParams)
+    // res.send(JSON.stringify(insertId))
+    res.send(null)
+})
+
 var server = app.listen(8080, function() {
     var host = server.address().address
     var port = server.address().port

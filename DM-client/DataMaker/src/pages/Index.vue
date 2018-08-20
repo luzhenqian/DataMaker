@@ -57,8 +57,8 @@
                                 数据模拟
                             </template>
                             <MenuItem name="1-0" to="overviewMap">总览图</MenuItem>
-                            <MenuItem name="1-1">脱硫</MenuItem>
-                            <MenuItem name="1-2">余热发电</MenuItem>
+                            <MenuItem name="1-1" >脱硫</MenuItem>
+                            <MenuItem name="1-2" to="1-2">余热发电</MenuItem>
                             <MenuItem name="1-3">环保除尘</MenuItem>
                         </Submenu>
                         <!-- <Submenu name="2">
