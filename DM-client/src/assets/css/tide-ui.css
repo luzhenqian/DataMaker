@@ -1,0 +1,19 @@
+.page-title-meiyanti{
+  font-family: meiyanti;
+  font-size:1.8em;
+}
+
+.page-title-shoujinti{
+  font-family: shoujinti;
+  font-size:1.8em;
+}
+
+@font-face {
+  font-family: meiyanti;
+  src: url("../font/HYXiaoBoMeiYanTiW.ttf");
+}
+
+@font-face {
+  font-family: shoujinti;
+  src: url("../font/SentyLingfeiScroll.ttf");
+}

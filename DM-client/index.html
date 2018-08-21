@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>汪汪！</title>
+    <link id="dog" rel="shortcut icon" href="./static/icon/dog.png">
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script>
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState == 'hidden') {
+            normal_title = document.title
+            normal_icon = document.getElementById("dog").href
+            document.title = "我要骨头！"
+            document.getElementById("dog").href = "./static/icon/dog-food.png"
+        } else {
+            document.title = normal_title
+            document.getElementById("dog").href = normal_icon
+        }
+
+    });
+    </script>
+  </body>
+</html>
